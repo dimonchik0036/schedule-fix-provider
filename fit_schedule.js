@@ -81,3 +81,8 @@ function removeLessonEntries() {
 function addLessonEntries() {
     insertLessons(findLessonEntriesFromAllTables(Array.prototype.slice.apply(arguments)))
 }
+
+// Место для редактирования
+//
+// removeLessonEntries("ТООИ", "УМП"); // Я нужна для удаления
+// addLessonEntries("АСМиМ", "ЭПСМиМ"); // Я нужна для добавления
