@@ -4,18 +4,14 @@ function findLessonEntriesFromDocument(doc, lessonName) {
         .filter(lesson => lesson.children[1].textContent === lessonName);
 }
 
-function removeLessonEntries(lessonName) {
-    findLessonEntriesFromDocument(document, lessonName).forEach(lesson => lesson.remove());
-}
-
-function findLessonEntriesFromAllTables(lessonName) {
+function findLessonEntriesFromAllTables(names) {
     let lessons = [];
     for (let groupN = 16201; groupN <= 16209; groupN++) {
-        lessons = lessons.concat(findLessonEntriesFromDocument(getDocumentByUrl("https://table.nsu.ru/group/" + groupN), lessonName));
+        let doc = getDocumentByUrl("https://table.nsu.ru/group/" + groupN);
+        names.forEach(it => lessons = lessons.concat(findLessonEntriesFromDocument(doc, it)));
     }
     return lessons;
 }
-
 
 function insertLessons(lessons) {
     let table = document.querySelector(".time-table > tbody");
@@ -39,7 +35,9 @@ function getDocumentByUrl(url) {
 }
 
 function compareLesson(lhs, rhs) {
-    return getRoom(lhs) === getRoom(rhs)
+    return getType(lhs) === getType(rhs)
+        && getName(lhs) === getName(rhs)
+        && getRoom(lhs) === getRoom(rhs)
         && getTutor(lhs) === getTutor(rhs)
         && getColumnNumber(lhs) === getColumnNumber(rhs)
         && getRowNumber(lhs) === getRowNumber(rhs)
@@ -53,18 +51,36 @@ function getRowNumber(lesson) {
     return lesson.parentNode.parentNode.rowIndex;
 }
 
-function getRoom(lesson) {
-    if (lesson.children.length > 2) {
-        return lesson.children[2].textContent;
+function getChildrenOrEmptyString(lesson, index) {
+    if (lesson.children.length > index) {
+        return lesson.children[index].textContent;
     } else {
         return "";
     }
 }
 
+function getType(lesson) {
+    getChildrenOrEmptyString(lesson, 0)
+}
+
+function getName(lesson) {
+    getChildrenOrEmptyString(lesson, 1)
+}
+
+function getRoom(lesson) {
+    getChildrenOrEmptyString(lesson, 2)
+}
+
 function getTutor(lesson) {
-    if (lesson.children.length > 3) {
-        return lesson.children[3].textContent;
-    } else {
-        return "";
-    }
+    getChildrenOrEmptyString(lesson, 3)
+}
+
+function removeLessonEntries() {
+    Array.prototype.slice
+        .apply(arguments)
+        .forEach(it => findLessonEntriesFromDocument(document, it).forEach(lesson => lesson.remove()));
+}
+
+function addLessonEntries() {
+    insertLessons(findLessonEntriesFromAllTables(Array.prototype.slice.apply(arguments)))
 }
