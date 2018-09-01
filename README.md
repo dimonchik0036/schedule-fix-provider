@@ -6,14 +6,14 @@
 
 ##Пример
 Рассмотрим обычное расписание:  
-[До](https://user-images.githubusercontent.com/22503910/44948100-2d8ba080-ae42-11e8-91bd-add8998a2fdd.png)  
+![До](https://user-images.githubusercontent.com/22503910/44948100-2d8ba080-ae42-11e8-91bd-add8998a2fdd.png)  
 Теперь добавим в конец скрипта:  
 ```javascript
 removeLessonEntries("ТООИ", "УМП");
 addLessonEntries("АСМиМ", "ЭПСМиМ");
 ```  
 В результате получилось следующее расписание:  
-[После](https://user-images.githubusercontent.com/22503910/44948101-2e243700-ae42-11e8-993e-ce135681aaed.png)  
+![После](https://user-images.githubusercontent.com/22503910/44948101-2e243700-ae42-11e8-993e-ce135681aaed.png)  
 
 Таким нехитрым методом можно добавлять и удалять любые предметы.
 
