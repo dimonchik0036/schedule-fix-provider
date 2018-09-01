@@ -46,8 +46,12 @@ function findLessonEntriesFromDocument(doc, names) {
 
 function findLessonEntriesFromAllTables(names) {
     let lessons = [];
-    for (let groupN = 16201; groupN <= 16209; groupN++) {
-        let doc = getDocumentByUrl("https://table.nsu.ru/group/" + groupN);
+    let myGroup = document.location.toString().split("1620").pop();
+    for (let groupN = 1; groupN <= 9; groupN++) {
+        if (groupN.toString() === myGroup) {
+            continue
+        }
+        let doc = getDocumentByUrl("https://table.nsu.ru/group/1620" + groupN);
         lessons = lessons.concat(findLessonEntriesFromDocument(doc, names));
     }
     return lessons;
