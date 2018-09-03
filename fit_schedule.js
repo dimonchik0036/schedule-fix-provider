@@ -1,3 +1,10 @@
+// ==UserScript==
+// @name      My schedule
+// @version   2
+// @namespace https://github.com/Dimonchik0036/schedule-fix-provider
+// @include   https://table.nsu.ru/group/16205
+// ==/UserScript==
+
 function getChildrenOrEmptyString(lesson, index) {
     if (lesson.childElementCount > index) {
         return lesson.children[index].textContent;
