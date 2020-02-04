@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name      My schedule
-// @version   2
+// @version   3
 // @namespace https://github.com/Dimonchik0036/schedule-fix-provider
-// @include   https://table.nsu.ru/group/16205
+// @include   https://table.nsu.ru/group/17205
 // ==/UserScript==
 
 function getChildrenOrEmptyString(lesson, index) {
@@ -48,17 +48,24 @@ function compareLesson(lhs, rhs) {
 
 function findLessonEntriesFromDocument(doc, names) {
     return [].slice.call(doc.querySelectorAll("div .cell"))
-        .filter(cell => cell.childElementCount > 1 && names.includes(cell.children[1].textContent));
+        .filter(cell => cell.childElementCount > 1 && names.includes(cell.children[1].textContent.trim()));
 }
 
 function findLessonEntriesFromAllTables(names) {
     let lessons = [];
-    let myGroup = document.location.toString().split("1620").pop();
-    for (let groupN = 1; groupN <= 9; groupN++) {
+    let myGroup = document.location.toString().split("172").pop();
+    for (let groupN = 1; groupN <= 10; groupN++) {
         if (groupN.toString() === myGroup) {
             continue
         }
-        let doc = getDocumentByUrl("https://table.nsu.ru/group/1620" + groupN);
+        let number;
+        if (groupN == 10) {
+            number = groupN;
+        } else {
+            number = '0'+groupN;
+        }
+
+        let doc = getDocumentByUrl("https://table.nsu.ru/group/172" + number);
         lessons = lessons.concat(findLessonEntriesFromDocument(doc, names));
     }
     return lessons;
@@ -90,7 +97,7 @@ function removeLessonEntries() {
 }
 
 function addLessonEntries() {
-    insertLessons(findLessonEntriesFromAllTables(Array.prototype.slice.apply(arguments)))
+    insertLessons(findLessonEntriesFromAllTables(Array.prototype.slice.apply(arguments)));
 }
 
 // Место для редактирования
